@@ -32,7 +32,7 @@ COPY package*.json ./
 RUN npm ci --only=production && npm cache clean --force
 
 # Copy built application from builder
-COPY --from=builder --chown=nodejs:nodejs /app/dist ./dist
+COPY --from=builder --chown=nodejs:nodejs /app .
 
 # Switch to non-root user
 USER nodejs
@@ -42,4 +42,4 @@ EXPOSE 3000
 ENTRYPOINT ["/sbin/tini", "--"]
 
 # Start application
-CMD ["node", "dist/index.js"]
+CMD ["node", "/app/index.js"]
